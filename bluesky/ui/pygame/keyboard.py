@@ -42,11 +42,16 @@ class Keyboard:
 
             elif event.type==pg.KEYDOWN:
 
+                # ASCII key codes
+                alphanum = range(32, 127) # alphanumeric keys: from 'SPACE' to 'z'
+                numpad1 = range(1073741908, 1073741912) # numpad keys part 1: from '/' to '+'
+                numpad2 = range(1073741913, 1073741924) # numpad keys part 2: from '1' to '.'
+
                 # Alphanumeric key
-                if event.key>31 and event.key<127:
+                if event.key in alphanum or event.key in numpad1 or event.key in numpad2:
                     bs.scr.editwin.insert(str(event.unicode))  #.upper())
 
-                elif event.key==13: # ENTER
+                elif event.key==13 or event.key == 1073741912: # ENTER
                     cmdline = bs.scr.editwin.getline()
                     bs.scr.editwin.enter()
                     if len(cmdline)>0:
@@ -59,7 +64,7 @@ class Keyboard:
                 elif event.key==27: # ESCAPE
                     bs.sim.stop()
 
-                elif event.key ==pg.K_F3: # F3: Insert last command
+                elif event.key == pg.K_F3 or event.key == 1073741906: # F3 or Up Key: Insert last command
                     bs.scr.editwin.insert(self.lastcmd.strip()+" ") # strip().upper()+" ")
 
                 # Display keys
